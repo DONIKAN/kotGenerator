@@ -37,7 +37,7 @@ fun main(args: Array<String>) {
                 // Create request files
                 for (folder in postman.folders!!) {
 
-                    val className = "${folder!!.name!!.toSnakeCase().replace(" ", "")}Request"
+                    val className = "${folder!!.name!!.toSnakeCase()}Request"
 
                     // Create file
                     val reqFile = File("$DIRECTORY/${className}.kt")
@@ -75,7 +75,8 @@ fun String.toSnakeCase(): String {
     if (words.isEmpty()) return this.capitalize()
 
     for (word in words) text += word.capitalize()
-    return text
+    
+    return text.replace(" ", "")
 }
 
 object keys {
