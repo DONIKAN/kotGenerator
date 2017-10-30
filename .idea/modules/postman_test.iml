@@ -6,6 +6,7 @@
         <compilerSettings />
         <compilerArguments>
           <option name="destination" value="$MODULE_DIR$/../../build/kotlin-classes/test" />
+          <option name="classpath" value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jre8/1.1.50/adc62fee3e99a0f5efe8baf529db0c51449b30d1/kotlin-stdlib-jre8-1.1.50.jar;C:/Users/PC/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.2/3edcfe49d2c6053a70a2a47e4e1c2f94998a49cf/gson-2.8.2.jar;C:/Users/PC/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.1.50/2bbd56ca7884b4f70db0f1d655d32ee6f205eaa5/kotlin-stdlib-1.1.50.jar;C:/Users/PC/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jre7/1.1.50/782cda128253a8a1843d26b00d86e7c44fbc6246/kotlin-stdlib-jre7-1.1.50.jar;C:/Users/PC/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar" />
           <option name="noStdlib" value="true" />
           <option name="noReflect" value="true" />
           <option name="moduleName" value="postman" />

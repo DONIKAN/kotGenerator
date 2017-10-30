@@ -1,4 +1,4 @@
-public class Type de productRequest(){
+public class TypeDeProductRequest(){
 
 
 
