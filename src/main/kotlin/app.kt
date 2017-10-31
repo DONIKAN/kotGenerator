@@ -22,17 +22,25 @@ fun main(args: Array<String>) {
     } catch(e: Exception) {
     }
 
-    val root_path = "./src/main/kotlin/$package_name_path"
+    val layout_root_path = "./src/main/kotlin/res/layout"
+    val kotlin_root_path = "./src/main/kotlin/java/$package_name_path"
 
     val directories = HashMap<String, String>()
-    directories.put(keys.CONSTANTS, "$root_path/constants/")
-    directories.put(keys.ENTITIES, "$root_path/entities/")
-    directories.put(keys.REQUESTS, "$root_path/requests/")
-    directories.put(keys.REQUESTS_ENTITIES, "$root_path/entities/requests/")
+    directories.put(keys.CONSTANTS, "$kotlin_root_path/constants/")
+    directories.put(keys.ENTITIES, "$kotlin_root_path/entities/")
+    directories.put(keys.REQUESTS, "$kotlin_root_path/requests/")
+    directories.put(keys.REQUESTS_ENTITIES, "$kotlin_root_path/entities/requests/")
 
     // Deserialize object
     val gson = Gson()
     val postman = gson.fromJson<Postman>(inputString, Postman::class.java)
+
+    // Create layout directory
+    val layout_directory = File(layout_root_path)
+    if (!layout_directory.mkdirs()) {
+        print("error creating layout directory")
+        return
+    }
 
     // Create directories
     for ((key, value) in directories) {
@@ -59,6 +67,93 @@ fun main(args: Array<String>) {
                 // Create request files
                 for (folder in postman.folders!!) {
                     val className = folder!!.name!!.toSnakeCase()
+
+                    // Create item layout
+                    val itemXMLFile = File("$layout_root_path/item_${className.toLowerCase()}.xml")
+                    if (!itemXMLFile.createNewFile()) {
+                        print("error creating itemXMLFile")
+                    }
+
+                    val itemXML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                            "<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n" +
+                            "\txmlns:tools=\"http://schemas.android.com/tools\"\n" +
+                            "\tandroid:layout_width=\"match_parent\"\n" +
+                            "\tandroid:layout_height=\"wrap_content\"\n" +
+                            "\tandroid:layout_marginLeft=\"10dp\"\n" +
+                            "\tandroid:layout_marginRight=\"10dp\"\n" +
+                            "\tandroid:layout_marginTop=\"5dp\"\n" +
+                            "\tandroid:layout_marginBottom=\"5dp\"\n" +
+                            "\tandroid:background=\"@android:color/white\"\n" +
+                            "\tandroid:padding=\"10dp\"\n" +
+                            "\tandroid:orientation=\"vertical\">\n\n" +
+                            "\t\t<TextView\n" +
+                            "\t\t\tandroid:id=\"@+id/tvTest\"\n" +
+                            "\t\t\tandroid:layout_width=\"match_parent\"\n" +
+                            "\t\t\tandroid:layout_height=\"wrap_content\"\n" +
+                            "\t\t\ttools:text=\"Test\"/>\n\n" +
+                            "</LinearLayout>"
+
+                    itemXMLFile.writeText(itemXML)
+
+                    // Create fragment list
+                    val listXMLFile = File("$layout_root_path/fragment_${className.toLowerCase()}.xml")
+                    if (!listXMLFile.createNewFile()) {
+                        print("error creating listXMLFile")
+                    }
+
+                    val listXML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                            "<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n" +
+                            "\txmlns:tools=\"http://schemas.android.com/tools\"\n" +
+                            "\tandroid:layout_width=\"match_parent\"\n" +
+                            "\tandroid:layout_height=\"match_parent\"\n" +
+                            "\tandroid:layout_marginLeft=\"10dp\"\n" +
+                            "\tandroid:layout_marginRight=\"10dp\"\n" +
+                            "\tandroid:layout_marginTop=\"5dp\"\n" +
+                            "\tandroid:layout_marginBottom=\"5dp\"\n" +
+                            "\tandroid:background=\"@android:color/white\"\n" +
+                            "\tandroid:padding=\"10dp\"\n" +
+                            "\tandroid:orientation=\"vertical\">\n\n" +
+                            "\t\t<android.support.v7.widget.RecyclerView\n" +
+                            "\t\t\tandroid:id=\"@+id/rvList\"\n" +
+                            "\t\t\tandroid:layout_width=\"match_parent\"\n" +
+                            "\t\t\tandroid:layout_height=\"wrap_content\" />\n\n" +
+                            "</LinearLayout>"
+
+                    listXMLFile.writeText(listXML)
+
+                    // Create fragment edit
+                    val editXMLFile = File("$layout_root_path/fragment_edit_${className.toLowerCase()}.xml")
+                    if (!editXMLFile.createNewFile()) {
+                        print("error creating editXMLFile")
+                    }
+
+                    val editXML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                            "<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n" +
+                            "\txmlns:tools=\"http://schemas.android.com/tools\"\n" +
+                            "\tandroid:layout_width=\"match_parent\"\n" +
+                            "\tandroid:layout_height=\"wrap_content\"\n" +
+                            "\tandroid:layout_marginLeft=\"10dp\"\n" +
+                            "\tandroid:layout_marginRight=\"10dp\"\n" +
+                            "\tandroid:layout_marginTop=\"5dp\"\n" +
+                            "\tandroid:layout_marginBottom=\"5dp\"\n" +
+                            "\tandroid:background=\"@android:color/white\"\n" +
+                            "\tandroid:padding=\"10dp\"\n" +
+                            "\tandroid:orientation=\"vertical\">\n\n" +
+                            "\t\t<TextView\n" +
+                            "\t\t\tandroid:id=\"@+id/tvTest\"\n" +
+                            "\t\t\tandroid:layout_width=\"match_parent\"\n" +
+                            "\t\t\tandroid:layout_height=\"wrap_content\"\n" +
+                            "\t\t\tandroid:layout_marginBottom=\"5dp\"\n" +
+                            "\t\t\tandroid:text=\"Test\"/>\n\n" +
+                            "\t\t<EditText\n" +
+                            "\t\t\tandroid:id=\"@+id/etTest\"\n" +
+                            "\t\t\tandroid:layout_width=\"match_parent\"\n" +
+                            "\t\t\tandroid:layout_height=\"wrap_content\"\n" +
+                            "\t\t\ttools:text=\"Test\"/>\n\n" +
+                            "</LinearLayout>"
+
+                    editXMLFile.writeText(editXML)
+
 
                     // Create file
                     val reqFile = File("$value/$className.kt")
@@ -177,7 +272,7 @@ fun main(args: Array<String>) {
                     }
                     text += "}"
                     reqFile.writeText(text)
-                    val reqUrlConstantsFile = File("$root_path/constants/UrlConstants.kt")
+                    val reqUrlConstantsFile = File("$kotlin_root_path/constants/UrlConstants.kt")
                     reqUrlConstantsFile.appendText(constants)
                 }
 
@@ -229,7 +324,7 @@ fun main(args: Array<String>) {
 
     }
 
-    val reqUrlConstantsFile = File("$root_path/constants/UrlConstants.kt")
+    val reqUrlConstantsFile = File("$kotlin_root_path/constants/UrlConstants.kt")
     reqUrlConstantsFile.appendText("\n}")
 
 }
